@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Book a Visit | CheckMate</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="{{ ('css/app.css') }}" rel="stylesheet">
+    <script src="{{ ('js/app.js') }}" defer></script>
     <style>
         :root {
             --primary-color: #004080;
@@ -34,7 +36,7 @@
     <header class="bg-primary text-white py-4">
         <div class="container mx-auto flex items-center justify-between">
             <h1 class="text-2xl font-bold">CheckMate</h1>
-            <img src="download.jfif" alt="Alupe University Logo" class="h-12">
+            <img src="{{ asset('images/download.jfif') }}" alt="Alupe University Logo" class="h-12">
         </div>
     </header>
 

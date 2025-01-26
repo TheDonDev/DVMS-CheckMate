@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CheckMate | Alupe University</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <script src="{{ asset('js/app.js') }}"></script>
+
+
     <style>
         :root {
             --primary-color: #004080; /* Alupe's blue */
@@ -34,7 +38,7 @@
     <header class="bg-primary text-white py-4">
         <div class="container mx-auto flex items-center justify-between">
             <h1 class="text-2xl font-bold">CheckMate</h1>
-            <img src="download.jfif" alt="Alupe University Logo" class="h-12">
+            <img src="{{ asset('images/download.jfif') }}" alt="Alupe University Logo" class="h-12">
         </div>
     </header>
 
@@ -49,8 +53,8 @@
 
         <!-- Action Buttons -->
         <section class="text-center mb-12">
-            <a href="book-visit.html" class="bg-primary text-white px-6 py-3 rounded mr-4">Book a Visit</a>
-            <a href="join-visit.html" class="bg-secondary text-white px-6 py-3 rounded">Join a Visit</a>
+            <a href="{{ url('/book-visit') }}" class="bg-primary text-white px-6 py-3 rounded mr-4">Book a Visit</a>
+            <a href="{{ url('/join-visit') }}" class="bg-secondary text-white px-6 py-3 rounded">Join a Visit</a>
         </section>
 
         <!-- Visitor Check-In -->
