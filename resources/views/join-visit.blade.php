@@ -46,9 +46,8 @@
     <main class="container mx-auto mt-8">
         <section class="bg-white shadow-lg rounded-lg p-6">
             <h2 class="text-2xl font-bold text-primary mb-4">Join a Visit</h2>
-            <form>
-                <!-- Form Fields -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <form action="{{ route('join.visit.submit') }}" method="POST">
+                @csrf
                     <input type="text" placeholder="Visit Number" class="border p-2 rounded w-full mb-4" required>
                     <input type="text" placeholder="First Name" class="border p-2 rounded w-full mb-4" required>
                     <input type="text" placeholder="Last Name" class="border p-2 rounded w-full mb-4" required>
@@ -60,7 +59,7 @@
                 </div>
                 <!-- Submit and Cancel Buttons -->
                 <div class="flex justify-end gap-4 mt-6">
-                    <a href="index.html" class="bg-gray-300 text-gray-800 px-4 py-2 rounded">Cancel</a>
+                    <a href="/" class="bg-gray-300 text-gray-800 px-4 py-2 rounded">Cancel</a>
                     <button type="submit" class="bg-primary text-white px-4 py-2 rounded">Submit</button>
                 </div>
             </form>

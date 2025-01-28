@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Book a Visit | CheckMate</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link href="{{ ('css/app.css') }}" rel="stylesheet">
-    <script src="{{ ('js/app.js') }}" defer></script>
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <script src="{{ asset('js/app.js') }}"></script>
     <style>
         :root {
             --primary-color: #004080;
@@ -44,45 +44,46 @@
     <main class="container mx-auto mt-8">
         <section class="bg-white shadow-lg rounded-lg p-6">
             <h2 class="text-2xl font-bold text-primary mb-4">Book a Visit</h2>
-            <form>
+            <form action="{{ route('book.visit.submit') }}" method="POST">
+                @csrf
                 <!-- Form Fields -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <input type="text" placeholder="First Name" class="border p-2 rounded" required>
-                    <input type="text" placeholder="Last Name" class="border p-2 rounded" required>
-            <input type="text" placeholder="Designation" class="border p-2 rounded" required>
-            <input type="text" placeholder="Organization" class="border p-2 rounded" required>
-            <input type="email" placeholder="Email Address" class="border p-2 rounded" required>
-            <input type="text" placeholder="Phone Number" class="border p-2 rounded" required>
-            <input type="text" placeholder="ID Number" class="border p-2 rounded" required>
-            <select class="border p-2 rounded" required>
-                <option value="" disabled selected>Visit Type</option>
-                <option value="Business">Business</option>
-                <option value="Official">Official</option>
-                <option value="Educational">Educational</option>
-                <option value="Social">Social</option>
-                <option value="Tour">Tour</option>
-                <option value="Other">Other</option>
-            </select>
-            <select class="border p-2 rounded" required>
-                <option value="" disabled selected>Visit Facility</option>
-                <option value="Library">Library</option>
-                <option value="Administration Block">Administration Block</option>
-                <option value="Science Block">Science Block</option>
-                <option value="Auditorium">Auditorium</option>
-                <option value="SHS">School Of Health Science</option>
-            </select>
-            <input type="date" placeholder="Visit Date" class="border p-2 rounded" required>
-            <div class="flex items-center gap-2">
-                <label for="visit-from" class="text-gray-700">From:</label>
-                <input type="time" id="visit-from" class="border p-2 rounded w-full" required>
-            </div>
-            <div class="flex items-center gap-2">
-                <label for="visit-to" class="text-gray-700">To:</label>
-                <input type="time" id="visit-to" class="border p-2 rounded w-full" required>
-            </div>
-            <!-- Purpose of Visit Field -->
-            <textarea placeholder="Purpose of Visit" class="border p-2 rounded w-full md:col-span-full" rows="2" required></textarea>
-            <select class="border p-2 rounded w-full md:col-span-full" required>
+                    <input type="text" name="first_name" placeholder="First Name" class="border p-2 rounded" required>
+                    <input type="text" name="last_name" placeholder="Last Name" class="border p-2 rounded" required>
+                    <input type="text" name="designation" placeholder="Designation" class="border p-2 rounded" required>
+                    <input type="text" name="organization" placeholder="Organization" class="border p-2 rounded" required>
+                    <input type="email" name="email" placeholder="Email Address" class="border p-2 rounded" required>
+                    <input type="text" name="phone" placeholder="Phone Number" class="border p-2 rounded" required>
+                    <input type="text" name="id_number" placeholder="ID Number" class="border p-2 rounded" required>
+                    <select name="visit_type" class="border p-2 rounded" required>
+                        <option value="" disabled selected>Visit Type</option>
+                        <option value="Business">Business</option>
+                        <option value="Official">Official</option>
+                        <option value="Educational">Educational</option>
+                        <option value="Social">Social</option>
+                        <option value="Tour">Tour</option>
+                        <option value="Other">Other</option>
+                    </select>
+                    <select name="visit_facility" class="border p-2 rounded" required>
+                        <option value="" disabled selected>Visit Facility</option>
+                        <option value="Library">Library</option>
+                        <option value="Administration Block">Administration Block</option>
+                        <option value="Science Block">Science Block</option>
+                        <option value="Auditorium">Auditorium</option>
+                        <option value="SHS">School Of Health Science</option>
+                    </select>
+                    <input type="date" name="visit_date" class="border p-2 rounded" required>
+                    <div class="flex items-center gap-2">
+                        <label for="visit-from" class="text-gray-700">From:</label>
+                        <input type="time" id="visit-from" name="visit_from" class="border p-2 rounded w-full" required>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <label for="visit-to" class="text-gray-700">To:</label>
+                        <input type="time" id="visit-to" name="visit_to" class="border p-2 rounded w-full" required>
+                    </div>
+                    <!-- Purpose of Visit Field -->
+                    <textarea name="purpose_of_visit" placeholder="Purpose of Visit" class="border p-2 rounded w-full md:col-span-full" rows="2" required></textarea>
+                    <select name="host_name" class="border p-2 rounded w-full md:col-span-full" required>
                         <option value="" disabled selected>Host's Name</option>
                         <option value="Prof. Barasa Lwagula">Prof. Barasa Lwagula (VC)</option>
                         <option value="Prof. John Chang'ach">Prof. John Chang'ach (DVC)</option>
@@ -92,11 +93,11 @@
                         <option value="Dr. Pamela Nyongesa">Dr. Pamela Nyongesa</option>
                         <option value="Dr. Caren Jerop">Dr. Caren Jerop</option>
                         <option value="Genvieve Nasimiyu">Genvieve Nasimiyu (Dean of Students)</option>
-            </select>
+                    </select>
                 </div>
                 <!-- Submit and Cancel Buttons -->
                 <div class="flex justify-end gap-4 mt-6">
-                    <a href="index.html" class="bg-gray-300 text-gray-800 px-4 py-2 rounded">Cancel</a>
+                    <a href="/" class="bg-gray-300 text-gray-800 px-4 py-2 rounded">Cancel</a>
                     <button type="submit" class="bg-primary text-white px-4 py-2 rounded">Submit</button>
                 </div>
             </form>

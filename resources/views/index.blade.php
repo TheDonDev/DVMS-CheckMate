@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <script src="{{ asset('js/app.js') }}"></script>
 
-
     <style>
         :root {
             --primary-color: #004080; /* Alupe's blue */
@@ -53,8 +52,8 @@
 
         <!-- Action Buttons -->
         <section class="text-center mb-12">
-            <a href="{{ url('/book-visit') }}" class="bg-primary text-white px-6 py-3 rounded mr-4">Book a Visit</a>
-            <a href="{{ url('/join-visit') }}" class="bg-secondary text-white px-6 py-3 rounded">Join a Visit</a>
+            <a href="{{ route('book.visit') }}" class="bg-primary text-white px-6 py-3 rounded mr-4">Book a Visit</a>
+            <a href="{{ route('join.visit') }}" class="bg-secondary text-white px-6 py-3 rounded">Join a Visit</a>
         </section>
 
         <!-- Visitor Check-In -->
