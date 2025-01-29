@@ -108,5 +108,19 @@ class VisitController extends Controller
         return $host ? $host->email : null; // Return the email if found, otherwise null
     }
 
-    // Other methods remain unchanged...
+    public function notifyHost(Request $request)
+    {
+        // Validate the incoming request data
+        $request->validate([
+            'email' => 'required|email',
+        ]);
+
+        // Prepare the email content
+        $hostEmail = $request->email;
+
+        // Send email to host
+        Mail::to($hostEmail)->send(new VisitBooked($request->all(), '')); // Assuming you want to send the same details
+
+        return response()->json(['message' => 'Email sent to host successfully.']);
+    }
 }
