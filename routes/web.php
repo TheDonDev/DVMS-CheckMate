@@ -4,12 +4,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\VisitController;
 
 // Routes for Visit Status
-Route::get('/visit-status', [VisitController::class, 'showVisitStatus'])->name('visit.status');
+Route::post('/visit-status', [VisitController::class, 'showVisitStatus'])->name('visit.status');
 
 // Route to notify host via AJAX
 Route::post('/notify-host', [VisitController::class, 'notifyHost'])->name('notify.host');
-//     return view('visit-status');
-// })->name('visit.status');
 
 
 // Routes for Homepage
