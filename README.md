@@ -1,3 +1,6 @@
+# DVMS-CheckMate
+DVMS - CheckMate: A visitor management system that simplifies the booking and management of visits. Users can schedule visits, send notifications to hosts, and manage visitor details efficiently
+
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
 <p align="center">
