@@ -4,10 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
-use App\Mail\VisitBooked; // Ensure you import the VisitBooked mailable
-use App\Mail\VisitorJoined; // Import the mailable for joining a visit
-use App\Models\Visitor; // Assuming you have a Visitor model to interact with the database
-use App\Models\Host; // Import the Host model
+use App\Mail\VisitBooked; // Import the VisitBooked mailable
+use App\Models\Visitor; // Visitor model
+use App\Models\Host; // Host model
+use App\Models\Feedback; // Feedback model
+use App\Models\Visit; // Visit model
 
 class VisitController extends Controller
 {
@@ -31,61 +32,81 @@ class VisitController extends Controller
             'host_name' => 'required|string',
         ]);
 
-        // Remove debugging statement to allow form submission to complete
-
         // Generate a random visitor number
         $visitorNumber = rand(1000000000, 9999999999);
 
         // Send email to visitor
         Mail::to($validatedData['email'])->send(new VisitBooked($validatedData, $visitorNumber));
 
-        // Get the host's email from the database (assuming you have a Host model)
-        $hostEmail = $this->getHostEmail($validatedData['host_name']); // Implement this method to get the host's email
+        // Get the host's email from the database
+        $hostEmail = $this->getHostEmail($validatedData['host_name']);
 
-        // Remove debugging statement to allow form submission to complete
+        // Prepare host email content
+        $hostEmailContent = [
+            'first_name' => $validatedData['first_name'],
+            'last_name' => $validatedData['last_name'],
+            'designation' => $validatedData['designation'],
+            'organization' => $validatedData['organization'],
+            'email' => $validatedData['email'],
+            'phone' => $validatedData['phone'],
+            'id_number' => $validatedData['id_number'],
+            'visit_type' => $validatedData['visit_type'],
+            'visit_facility' => $validatedData['visit_facility'],
+            'visit_date' => $validatedData['visit_date'],
+            'visit_from' => $validatedData['visit_from'],
+            'visit_to' => $validatedData['visit_to'],
+            'purpose_of_visit' => $validatedData['purpose_of_visit'],
+            'host_name' => $validatedData['host_name'],
+            'visitor_number' => $visitorNumber,
+        ];
 
-        Mail::to($hostEmail)->send(new VisitBooked($validatedData, $visitorNumber));
+        // Send email to host
+        Mail::to($hostEmail)->send(new VisitBooked($hostEmailContent, $visitorNumber));
 
         // Redirect back to index with success message
-        return redirect('/')->with('success', "Your details for the Tour submitted successfully. Visit no. {$visitorNumber}");
+        return redirect('/')->with('success', "Dear {$validatedData['first_name']}, your details for the Visit submitted successfully. Visit no. {$visitorNumber}");
     }
 
-    public function processJoinVisit(Request $request)
+    public function showVisitStatus(Request $request)
     {
-        // Validate the incoming request data
-        $validatedData = $request->validate([
-            'visit_number' => 'required|string',
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
-            'designation' => 'required|string|max:255',
-            'email' => 'required|email',
-            'phone' => 'required|string|max:15',
-            'id_number' => 'required|string|max:20',
-            'organization' => 'required|string|max:255',
+        // Validate the visit number
+        $request->validate([
+            'visit_number' => 'required|integer',
         ]);
 
-        // Find the original visitor by visit number
-        $originalVisitor = Visitor::where('visit_number', $validatedData['visit_number'])->first();
+        // Retrieve visit details based on the visit number
+        $visit = Visit::where('visitor_number', $request->visit_number)->first();
 
-        if (!$originalVisitor) {
-            return redirect('/')->with('error', "Visit number not found.");
+        if (!$visit) {
+            return redirect('/')->with('error', 'Visit not found.');
         }
 
-        // Send email to the original visitor notifying them that someone joined their visit
-        Mail::to($originalVisitor->email)->send(new VisitorJoined($validatedData));
-
-        // Get the host's email from the database
-        $hostEmail = $this->getHostEmail($originalVisitor->host_name);
-        Mail::to($hostEmail)->send(new VisitorJoined($validatedData));
-
-        // Redirect back to index with success message
-        return redirect('/')->with('success', "You have successfully joined the visit.");
+        return view('visit-status', compact('visit'));
     }
 
-    private function getHostEmail($hostName)
+    public function saveFeedback(Request $request)
+    {
+        // Validate feedback data
+        $validatedData = $request->validate([
+            'visitor_id' => 'required|integer',
+            'feedback' => 'required|string|max:500',
+        ]);
+
+        // Save feedback to the database
+        Feedback::create($validatedData);
+
+        return response()->json(['message' => 'Feedback saved successfully.']);
+    }
+
+    public function getHostEmail($hostName)
     {
         // Retrieve the host's email from the database
         $host = Host::where('name', $hostName)->first();
+        if (!$host) {
+            dd("Host not found: " . $hostName);
+        }
         return $host ? $host->email : null; // Return the email if found, otherwise null
     }
+
+    // Other methods remain unchanged...
 }

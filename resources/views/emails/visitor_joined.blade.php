@@ -7,7 +7,7 @@
 </head>
 <body>
     <h1>CheckMate</h1>
-    <p>Dear {{ $firstName }} {{ $lastName }},</p>
+    {{-- <p>Dear {{ $firstName }} {{ $lastName }},</p> --}}
     <p>{{ $data['first_name'] }} {{ $data['last_name'] }} has joined your visit.</p>
     <p>Details:</p>
     <ul>

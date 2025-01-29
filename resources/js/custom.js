@@ -1,3 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
-    console.log('Custom JS loaded!');
+    if (window.successMessage) {
+        alert(window.successMessage);
+    }
 });

@@ -3,10 +3,20 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\VisitController;
 
-// Home route
+
+// Routes for Visit Status
+Route::get('/visit-status', [VisitController::class, 'showVisitStatus'])->name('visit.status');
+
+// Route::get('/visit-status', function () {
+//     return view('visit-status');
+// })->name('visit.status');
+
+
+// Routes for Homepage
 Route::get('/', function () {
     return view('index');
-});
+})->name('index');
+
 
 // Routes for booking a visit
 Route::get('book-visit', function () {

@@ -7,7 +7,9 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <script src="{{ asset('js/app.js') }}"></script>
-
+    <script>
+        window.successMessage = "{{ session('success') }}";
+    </script>
     <style>
         :root {
             --primary-color: #004080; /* Alupe's blue */
@@ -43,6 +45,13 @@
 
     <!-- Main Content -->
     <main class="container mx-auto mt-8">
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                if (window.successMessage) {
+                    alert(window.successMessage);
+                }
+            });
+        </script>
 
         <!-- Homepage Overview -->
         <section class="text-center mb-12">
@@ -61,7 +70,7 @@
             <h3 class="text-2xl font-bold text-primary mb-4">Visitor Check-In</h3>
             <form id="check-in-form">
                 <input type="text" placeholder="Visit Number" class="border p-2 rounded w-full mb-4" required>
-                <button type="submit" class="bg-primary text-white px-4 py-2 rounded">Check In</button>
+            <a href="{{ route('visit.status') }}">  <button type="submit" class="bg-primary text-white px-4 py-2 rounded">Check In</button>
             </form>
         </section>
 
