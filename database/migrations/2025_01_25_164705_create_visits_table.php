@@ -3,12 +3,13 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-class CreateVisitsTable extends Migration
+class CreateVisitsTable2025 extends Migration
 {
     public function up()
-    {
+    {if (!Schema::hasTable('feedback')) {
         Schema::create('visits', function (Blueprint $table) {
             $table->id();
+            $table->string('visit_number');
             $table->string('first_name');
             $table->string('last_name');
             $table->string('designation');
@@ -24,7 +25,9 @@ class CreateVisitsTable extends Migration
             $table->text('purpose_of_visit');
             $table->string('host_name');
             $table->timestamps();
+            $table->foreign('visit_id')->references('id')->on('visits')->onDelete('cascade');
         });
+    }
     }
 
     public function down()

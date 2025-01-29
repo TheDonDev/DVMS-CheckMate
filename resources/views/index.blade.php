@@ -68,10 +68,10 @@
         <!-- Visitor Check-In -->
         <section class="bg-white shadow-lg rounded-lg p-6 mb-12">
             <h3 class="text-2xl font-bold text-primary mb-4">Visitor Check-In</h3>
-        <form action="{{ route('visit-status') }}" method="POST">
+        <form action="{{ route('visit.status') }}" method="POST">
             @csrf
-            <input type="text" name="visit_number" placeholder="Enter Visit Number" required>
-            <button type="submit">Check-In</button>
+            <input class="border p-2 rounded w-full mb-4" type="text" name="visit_number" placeholder="Enter Visit Number" required>
+            <button class="mt-4 bg-primary text-white px-4 py-2 rounded" type="submit">Check-In</button>
         </form>
         </section>
 
