@@ -11,7 +11,6 @@ Route::get('/visit-status', function () {
 // Routes for Visit Status
 Route::post('/visit-status', [VisitController::class, 'showVisitStatus'])->name('visit.status');
 
-
 // Route to notify host via AJAX
 Route::post('/notify-host', [VisitController::class, 'notifyHost'])->name('notify.host');
 
