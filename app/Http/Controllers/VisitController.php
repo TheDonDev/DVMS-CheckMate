@@ -13,50 +13,46 @@ use App\Models\Visit; // Visit model
 
 class VisitController extends Controller
 {
-    public function processBookVisit(Request $request)
+    public function store(Request $request)
     {
-        // Validate the incoming request data
         $validatedData = $request->validate([
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
-            'designation' => 'required|string|max:255',
-            'organization' => 'required|string|max:255',
-            'email' => 'required|email',
-            'phone' => 'required|string|max:15',
-            'id_number' => 'required|string|max:20',
-            'visit_type' => 'required|string',
-            'visit_facility' => 'required|string',
-            'visit_date' => 'required|date',
-            'visit_from' => 'required|string',
-            'visit_to' => 'required|string',
-            'purpose_of_visit' => 'required|string',
-            'host_name' => 'required|string',
+            'host_name' => 'required|string|max:255',
+            'visitor_name' => 'required|string|max:255',
+            'visitor_email' => 'required|email|max:255',
+            'visitor_phone' => 'required|string|max:15',
+            'host_id' => 'required|exists:hosts,id',
         ]);
 
-        // Generate a random visitor number
-        $visitorNumber = rand(1000000000, 9999999999);
+        $visitorNumber = rand(1000000000, 9999999999); // Generate a random visit number
 
-        // Send email to visitor
-        Mail::to($validatedData['email'])->send(new VisitBooked($validatedData, $visitorNumber));
+        // Save visit details in the database
+        $visit = Visit::create([
+            'visit_number' => $visitorNumber,
+            'host_name' => $validatedData['host_name'],
+            'visitor_name' => $validatedData['visitor_name'],
+            'visitor_email' => $validatedData['visitor_email'],
+            'visitor_phone' => $validatedData['visitor_phone'],
+            'host_id' => $validatedData['host_id'],
+        ]);
 
         // Get the host's email from the database
         $hostEmail = $this->getHostEmail($validatedData['host_name']);
 
         // Prepare host email content
         $hostEmailContent = [
-            'first_name' => $validatedData['first_name'],
-            'last_name' => $validatedData['last_name'],
-            'designation' => $validatedData['designation'],
-            'organization' => $validatedData['organization'],
-            'email' => $validatedData['email'],
-            'phone' => $validatedData['phone'],
-            'id_number' => $validatedData['id_number'],
-            'visit_type' => $validatedData['visit_type'],
-            'visit_facility' => $validatedData['visit_facility'],
-            'visit_date' => $validatedData['visit_date'],
-            'visit_from' => $validatedData['visit_from'],
-            'visit_to' => $validatedData['visit_to'],
-            'purpose_of_visit' => $validatedData['purpose_of_visit'],
+            'first_name' => $validatedData['visitor_name'],
+            'last_name' => '',
+            'designation' => '',
+            'organization' => '',
+            'email' => $validatedData['visitor_email'],
+            'phone' => $validatedData['visitor_phone'],
+            'id_number' => '',
+            'visit_type' => '',
+            'visit_facility' => '',
+            'visit_date' => '',
+            'visit_from' => '',
+            'visit_to' => '',
+            'purpose_of_visit' => '',
             'host_name' => $validatedData['host_name'],
             'visitor_number' => $visitorNumber,
         ];
@@ -65,13 +61,18 @@ class VisitController extends Controller
         Mail::to($hostEmail)->send(new VisitBooked($hostEmailContent, $visitorNumber));
 
         // Redirect back to index with success message
-        return redirect('/')->with('success', "Dear {$validatedData['first_name']}, your details for the Visit submitted successfully. Visit no. {$visitorNumber}");
+        return redirect('/')->with('success', "Dear {$validatedData['visitor_name']}, your details for the Visit submitted successfully. Visit no. {$visitorNumber}");
     }
 
     public function showVisitStatus(Request $request)
     {
         $visitNumber = $request->input('visit_number');
         $visit = Visit::where('visit_number', $visitNumber)->first();
+
+        if (!$visit) {
+            return redirect()->back()->with('error', 'Visit not found.');
+        }
+
         $host = Host::find($visit->host_id);
 
         return view('visit-status', ['visit' => $visit, 'host' => $host]);
@@ -81,6 +82,11 @@ class VisitController extends Controller
     {
         $visitNumber = $request->input('visit_number');
         $visit = Visit::where('visit_number', $visitNumber)->first();
+
+        if (!$visit) {
+            return response()->json(['error' => 'Visit not found.'], 404);
+        }
+
         $host = Host::find($visit->host_id);
 
         return response()->json(['email' => $host->email, 'phone' => $host->phone]);
@@ -90,10 +96,15 @@ class VisitController extends Controller
     {
         $visitNumber = $request->input('visit_number');
         $visit = Visit::where('visit_number', $visitNumber)->first();
+
+        if (!$visit) {
+            return response()->json(['error' => 'Visit not found.'], 404);
+        }
+
         $host = Host::find($visit->host_id);
 
         // Send email notifications
-        Mail::to($visit->email)->send(new CheckOutNotification($visit, $host));
+        Mail::to($visit->visitor_email)->send(new CheckOutNotification($visit, $host));
         Mail::to($host->email)->send(new CheckOutNotification($visit, $host));
 
         return response()->json(['message' => 'Check-out successful!']);
