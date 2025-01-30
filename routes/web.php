@@ -49,3 +49,5 @@ Route::get('join-visit', function () {
 })->name('join.visit');
 
 Route::post('/join-visit', [VisitController::class, 'processJoinVisit'])->name('join.visit.submit');
+
+Route::post('/save-feedback', [VisitController::class, 'saveFeedback'])->name('save.feedback');

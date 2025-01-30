@@ -80,7 +80,7 @@
             <h3 class="text-2xl font-bold text-primary mb-4">Feedback</h3>
             <form action="{{ route('save.feedback') }}" method="POST">
                 @csrf
-                <input type="hidden" name="visitor_id" value="{{ auth()->user()->id }}"> <!-- Assuming the user is authenticated -->
+                <input type="hidden" name="visitor_id" value="{{ auth()->check() ? auth()->user()->id : '' }}">
                 <textarea placeholder="Share your experience..." class="border p-2 rounded w-full mb-4" rows="5" name="feedback" required></textarea>
                 <button type="submit" class="bg-primary text-white px-4 py-2 rounded">Submit Feedback</button>
             </form>

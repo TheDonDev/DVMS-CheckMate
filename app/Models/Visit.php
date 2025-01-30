@@ -10,6 +10,7 @@ class Visit extends Model
 
     protected $fillable = [
         'visit_number',
+        'visitor_number',
         'host_name',
         'visitor_name',
         'visitor_email',

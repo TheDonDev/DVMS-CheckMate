@@ -7,7 +7,8 @@
 </head>
 <body>
     <h1>Visit Status</h1>
-    <p>Host Phone: {{ $visit->host_phone }}</p> <!-- Added host phone number -->
+    <p>Host Phone: {{ $host->phone }}</p> <!-- Updated to use host object -->
+
 
     <p>Date: {{ $visit->visit_date }}</p>
     <p>Visitors:</p>
@@ -16,14 +17,15 @@
         <li>Email: {{ $visit->visitor_email }}</li>
         <li>Host Phone: {{ $visit->host_phone }}</li> <!-- Added host phone number -->
     </ul>
-    <form action="{{ route('visit.status') }}" method="POST">
+    <form action="{{ route('visit.status') }}" method="POST" id="visit-status-form">
+
     @csrf
     <input type="hidden" name="visit_number" value="{{ $visit->visit_number }}">
 
     <!-- Meeting & Check-Out -->
     <section class="bg-white shadow-lg rounded-lg p-6 mb-12">
         <h3 class="text-2xl font-bold text-primary mb-4">Meeting & Check-Out</h3>
-        <button class="mt-4 bg-primary text-white px-4 py-2 rounded" type="submit">Book Visit</button>
+
         <button class="mt-4 bg-primary text-white px-4 py-2 rounded" type="button" onclick="notifyHost()">Notify Host</button>
         <button class="mt-4 bg-primary text-white px-4 py-2 rounded" type="button" onclick="checkOut()">Check Out</button>
     </section>
