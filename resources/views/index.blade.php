@@ -54,8 +54,7 @@
         </script>
 
         <!-- Homepage Overview -->
-        <section c
-lass="text-center mb-12">
+        <section class="text-center mb-12">
             <h2 class="text-3xl font-bold text-primary">Welcome to CheckMate</h2>
             <p class="mt-4 text-gray-700">An efficient digital visitor management system for Alupe University.</p>
         </section>
@@ -69,11 +68,11 @@ lass="text-center mb-12">
         <!-- Visitor Check-In -->
         <section class="bg-white shadow-lg rounded-lg p-6 mb-12">
         <h3 class="text-2xl font-bold text-primary mb-4">Visitor Check-In</h3>
-            <form action="{{ route('visit.status') }}" method="POST">
+        <form action="{{ route('visit.status') }}" method="POST">
             @csrf
-                <input class="border p-2 rounded w-full mb-4" type="text" name="visit_number" placeholder="Enter Visit Number" required>
+            <input class="border p-2 rounded w-full mb-4" type="text" name="visit_number" placeholder="Enter Visit Number" required>
             <button class="mt-4 bg-primary text-white px-4 py-2 rounded" type="submit">Check-In</button>
-            </form>
+        </form>
         </section>
 
 

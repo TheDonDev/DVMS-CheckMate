@@ -2,11 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\VisitController;
-
-
-Route::get('/visit-status', function () {
-    return view('visit-status');
-})->name('visit.status');
+use Illuminate\Support\Facades\Mail;
 
 // Routes for Visit Status
 Route::post('/visit-status', [VisitController::class, 'showVisitStatus'])->name('visit.status');
@@ -17,7 +13,18 @@ Route::post('/notify-host', [VisitController::class, 'notifyHost'])->name('notif
 // Route to check out
 Route::post('/checkout', [VisitController::class, 'checkOut'])->name('checkout');
 
-// Routes for Homepage
+// Test route for sending a test email
+Route::get('/test-email', function () {
+    $details = [
+        'first_name' => 'Test',
+        'last_name' => 'User',
+        'email' => 'donaldmwanga33gmail.com@',
+    ];
+    Mail::to($details['email'])->send(new \App\Mail\VisitBooked($details, '1234567890'));
+    return 'Email sent successfully!';
+});
+
+
 Route::get('/', function () {
     return view('index');
 })->name('index');
