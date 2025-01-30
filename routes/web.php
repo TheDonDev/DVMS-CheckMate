@@ -35,7 +35,7 @@ Route::get('book-visit', function () {
     return view('book-visit');
 })->name('book.visit');
 
-Route::post('book-visit', [VisitController::class, 'processBookVisit'])->name('book.visit.submit');
+Route::post('book-visit', [VisitController::class, 'store'])->name('book.visit.submit');
 
 // Routes for joining a visit
 Route::get('join-visit', function () {
