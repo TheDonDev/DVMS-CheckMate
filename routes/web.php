@@ -18,12 +18,15 @@ Route::get('/test-email', function () {
     $details = [
         'first_name' => 'Test',
         'last_name' => 'User',
-        'email' => 'donaldmwanga33gmail.com@',
+        'email' => 'donaldmwanga33@gmail.com',
     ];
-    Mail::to($details['email'])->send(new \App\Mail\VisitBooked($details, '1234567890'));
-    return 'Email sent successfully!';
+    try {
+        Mail::to($details['email'])->send(new \App\Mail\VisitBooked($details, '1234567890'));
+        return 'Email sent successfully!';
+    } catch (\Exception $e) {
+        return 'Error sending email: ' . $e->getMessage();
+    }
 });
-
 
 Route::get('/', function () {
     return view('index');

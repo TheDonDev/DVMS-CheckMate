@@ -122,4 +122,4 @@ class VisitController extends Controller
     }
 
     // Other methods remain unchanged...
-}
+    }
