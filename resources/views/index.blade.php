@@ -54,7 +54,8 @@
         </script>
 
         <!-- Homepage Overview -->
-        <section class="text-center mb-12">
+        <section c
+lass="text-center mb-12">
             <h2 class="text-3xl font-bold text-primary">Welcome to CheckMate</h2>
             <p class="mt-4 text-gray-700">An efficient digital visitor management system for Alupe University.</p>
         </section>
@@ -67,21 +68,14 @@
 
         <!-- Visitor Check-In -->
         <section class="bg-white shadow-lg rounded-lg p-6 mb-12">
-            <h3 class="text-2xl font-bold text-primary mb-4">Visitor Check-In</h3>
-        <form action="{{ route('visit.status') }}" method="POST">
+        <h3 class="text-2xl font-bold text-primary mb-4">Visitor Check-In</h3>
+            <form action="{{ route('visit.status') }}" method="POST">
             @csrf
-            <input class="border p-2 rounded w-full mb-4" type="text" name="visit_number" placeholder="Enter Visit Number" required>
+                <input class="border p-2 rounded w-full mb-4" type="text" name="visit_number" placeholder="Enter Visit Number" required>
             <button class="mt-4 bg-primary text-white px-4 py-2 rounded" type="submit">Check-In</button>
-        </form>
+            </form>
         </section>
 
-        <!-- Meeting & Check-Out -->
-        <section class="bg-white shadow-lg rounded-lg p-6 mb-12">
-            <h3 class="text-2xl font-bold text-primary mb-4">Meeting & Check-Out</h3>
-            <p>Notify your host or check out after your meeting.</p>
-            <button class="mt-4 bg-secondary text-white px-4 py-2 rounded">Notify Host</button>
-            <button class="mt-4 bg-primary text-white px-4 py-2 rounded">Check Out</button>
-        </section>
 
         <!-- Feedback -->
         <section class="bg-white shadow-lg rounded-lg p-6">

@@ -3,12 +3,20 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\VisitController;
 
+
+Route::get('/visit-status', function () {
+    return view('visit-status');
+})->name('visit.status');
+
 // Routes for Visit Status
 Route::post('/visit-status', [VisitController::class, 'showVisitStatus'])->name('visit.status');
+
 
 // Route to notify host via AJAX
 Route::post('/notify-host', [VisitController::class, 'notifyHost'])->name('notify.host');
 
+// Route to check out
+Route::post('/checkout', [VisitController::class, 'checkOut'])->name('checkout');
 
 // Routes for Homepage
 Route::get('/', function () {
