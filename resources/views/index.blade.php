@@ -67,20 +67,21 @@
 
         <!-- Visitor Check-In -->
         <section class="bg-white shadow-lg rounded-lg p-6 mb-12">
-        <h3 class="text-2xl font-bold text-primary mb-4">Visitor Check-In</h3>
-        <form action="{{ route('visit.status') }}" method="POST">
-            @csrf
-            <input class="border p-2 rounded w-full mb-4" type="text" name="visit_number" placeholder="Enter Visit Number" required>
-            <button class="mt-4 bg-primary text-white px-4 py-2 rounded" type="submit">Check-In</button>
-        </form>
+            <h3 class="text-2xl font-bold text-primary mb-4">Visitor Check-In</h3>
+            <form action="{{ route('visit.status') }}" method="POST">
+                @csrf
+                <input class="border p-2 rounded w-full mb-4" type="text" name="visit_number" placeholder="Enter Visit Number" required>
+                <button class="mt-4 bg-primary text-white px-4 py-2 rounded" type="submit">Check-In</button>
+            </form>
         </section>
-
 
         <!-- Feedback -->
         <section class="bg-white shadow-lg rounded-lg p-6">
             <h3 class="text-2xl font-bold text-primary mb-4">Feedback</h3>
-            <form id="feedback-form">
-                <textarea placeholder="Share your experience..." class="border p-2 rounded w-full mb-4" rows="5" required></textarea>
+            <form action="{{ route('save.feedback') }}" method="POST">
+                @csrf
+                <input type="hidden" name="visitor_id" value="{{ auth()->user()->id }}"> <!-- Assuming the user is authenticated -->
+                <textarea placeholder="Share your experience..." class="border p-2 rounded w-full mb-4" rows="5" name="feedback" required></textarea>
                 <button type="submit" class="bg-primary text-white px-4 py-2 rounded">Submit Feedback</button>
             </form>
         </section>
