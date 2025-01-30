@@ -3,10 +3,15 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-class CreateVisitsTable extends Migration
+
+class CreateVisitorsTable extends Migration
 {
-    public function up(){
-        Schema::create('visits', function (Blueprint $table) {
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('visitors', function (Blueprint $table) {
             $table->id();
             $table->string('visit_number');
             $table->string('first_name');
@@ -23,11 +28,15 @@ class CreateVisitsTable extends Migration
             $table->time('visit_to');
             $table->text('purpose_of_visit');
             $table->string('host_name');
-            $table->timestamps();});
+            $table->timestamps();
+        });
     }
 
-    public function down()
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
     {
-        Schema::dropIfExists('visits');
+        Schema::dropIfExists('visitors');
     }
-}
+};
