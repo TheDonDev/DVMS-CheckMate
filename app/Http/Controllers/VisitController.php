@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\VisitBooked; // Import the VisitBooked mailable
+use App\Mail\CheckOutNotification; // Import the CheckOutNotification mailable
 use App\Models\Visitor; // Visitor model
 use App\Models\Host; // Host model
 use App\Models\Feedback; // Feedback model
@@ -69,19 +70,33 @@ class VisitController extends Controller
 
     public function showVisitStatus(Request $request)
     {
-        // Validate the visit number
-        $request->validate([
-            'visit_number' => 'required|integer',
-        ]);
+        $visitNumber = $request->input('visit_number');
+        $visit = Visit::where('visit_number', $visitNumber)->first();
+        $host = Host::find($visit->host_id);
 
-        // Retrieve visit details based on the visit number
-        $visit = Visit::where('visitor_number', $request->visit_number)->first();
+        return view('visit-status', ['visit' => $visit, 'host' => $host]);
+    }
 
-        if (!$visit) {
-            return redirect('/')->with('error', 'Visit not found.');
-        }
+    public function notifyHost(Request $request)
+    {
+        $visitNumber = $request->input('visit_number');
+        $visit = Visit::where('visit_number', $visitNumber)->first();
+        $host = Host::find($visit->host_id);
 
-        return view('visit-status', compact('visit'));
+        return response()->json(['email' => $host->email, 'phone' => $host->phone]);
+    }
+
+    public function checkOut(Request $request)
+    {
+        $visitNumber = $request->input('visit_number');
+        $visit = Visit::where('visit_number', $visitNumber)->first();
+        $host = Host::find($visit->host_id);
+
+        // Send email notifications
+        Mail::to($visit->email)->send(new CheckOutNotification($visit, $host));
+        Mail::to($host->email)->send(new CheckOutNotification($visit, $host));
+
+        return response()->json(['message' => 'Check-out successful!']);
     }
 
     public function saveFeedback(Request $request)
@@ -98,29 +113,9 @@ class VisitController extends Controller
         return response()->json(['message' => 'Feedback saved successfully.']);
     }
 
-    public function getHostEmail($hostName)
+    private function getHostEmail($hostName)
     {
-        // Retrieve the host's email from the database
         $host = Host::where('name', $hostName)->first();
-        if (!$host) {
-            dd("Host not found: " . $hostName);
-        }
-        return $host ? $host->email : null; // Return the email if found, otherwise null
-    }
-
-    public function notifyHost(Request $request)
-    {
-        // Validate the incoming request data
-        $request->validate([
-            'email' => 'required|email',
-        ]);
-
-        // Prepare the email content
-        $hostEmail = $request->email;
-
-        // Send email to host
-        Mail::to($hostEmail)->send(new VisitBooked($request->all(), '')); // Assuming you want to send the same details
-
-        return response()->json(['message' => 'Email sent to host successfully.']);
+        return $host ? $host->email : null;
     }
 }
