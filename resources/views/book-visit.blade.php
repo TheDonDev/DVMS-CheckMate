@@ -89,9 +89,11 @@
                         <option value="Prof. John Chang'ach">Prof. John Chang'ach (DVC)</option>
                         <option value="Dr. Titus Muhambe">Dr. Titus Muhambe</option>
                         <option value="Dr. Bostley Asenahabi">Dr. Bostley Asenahabi </option>
+                        <option value="Dr. D.K Muyobo">Dr. D.K Muyobo</option>
                         <option value="Dr. Victor Mengwa">Dr. Victor Mengwa</option>
                         <option value="Dr. Pamela Nyongesa">Dr. Pamela Nyongesa</option>
                         <option value="Dr. Caren Jerop">Dr. Caren Jerop</option>
+                        <option value="Dorcas Shisoka">Dorcas Shisoka</option>
                         <option value="Genvieve Nasimiyu">Genvieve Nasimiyu (Dean of Students)</option>
                     </select>
                 </div>

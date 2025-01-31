@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log; // Import Log facade
 use App\Mail\VisitBooked;
 
-class VisitController extends Controller
+class VisitController_temp extends Controller
 {
     public function processBookVisit(Request $request)
     {
@@ -37,6 +37,7 @@ class VisitController extends Controller
 
             // Generate a random visitor number
             $visitorNumber = rand(1000000000, 9999999999);
+            $visitNumber = rand(1000000000, 9999999999); // Example logic for generating visit number
 
             // Send email to visitor
             Mail::to($validatedData['email'])->send(new VisitBooked($validatedData, $visitorNumber));
@@ -44,15 +45,15 @@ class VisitController extends Controller
             // Save the visit data to the database
             Visit::create([
                 'visitor_number' => $visitorNumber,
+                'visit_number' => $visitNumber, // Ensure visit_number is included
                 'host_name' => $validatedData['host_name'],
                 'visitor_name' => "{$validatedData['first_name']} {$validatedData['last_name']}",
                 'visitor_email' => $validatedData['email'],
-                'visitor_phone' => $validatedData['visitor_phone'],
                 'host_id' => $this->getHostId($validatedData['host_name']),
             ]);
 
-             // Redirect back to index with success message
-        return redirect('/')->with('success', "Dear {$validatedData['first_name']}, your details for the Visit submitted successfully. Visit no. {$visitNumber}. You can share this visit number to let someone else join the visit.");
+            // Redirect back to index with success message
+            return redirect('/')->with('success', "Dear {$validatedData['first_name']}, your details for the Visit submitted successfully. Visit no. {$visitNumber}");
         } catch (\Exception $e) {
             Log::error('Error processing booking visit: ' . $e->getMessage());
             return redirect('/')->with('error', 'There was an error processing your visit. Please try again.');

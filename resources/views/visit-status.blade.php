@@ -4,7 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Visit Status</title>
-</head>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <script src="{{ asset('js/app.js') }}"></script>
+    <style>
+        :root {
+            --primary-color: #004080; /* Alupe's blue */
+            --secondary-color: #ffcc00; /* Alupe's gold */
+        }
+
+        .bg-primary {
+            background-color: var(--primary-color);
+        }
+
+        .text-primary {
+            color: var(--primary-color);
+        }
+
+        .bg-secondary {
+            background-color: var(--secondary-color);
+        }
+
+        .text-secondary {
+            color: var(--secondary-color);
+        }
+    </style>
 <body>
     <h1>Visit Status</h1>
     <p>Host Phone: {{ $host->phone }}</p> <!-- Updated to use host object -->

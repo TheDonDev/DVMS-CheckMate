@@ -13,15 +13,18 @@ class VisitorJoined extends Mailable
     use Queueable, SerializesModels;
 
     public $data; // To hold the visitor's data
+    public $visitorNumber; // To hold the visitor number
 
     /**
      * Create a new message instance.
      *
      * @param array $data
+     * @param string $visitorNumber
      */
-    public function __construct(array $data)
+    public function __construct(array $data, string $visitorNumber)
     {
         $this->data = $data; // Assign the visitor data to the property
+        $this->visitorNumber = $visitorNumber; // Assign the visitor number
     }
 
     /**
@@ -40,7 +43,7 @@ class VisitorJoined extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'emails.visitor_joined', //
+            view: 'emails.visitor_joined',
         );
     }
 
@@ -57,6 +60,7 @@ class VisitorJoined extends Mailable
                         'email' => $this->data['email'],
                         'phone' => $this->data['phone'],
                         'organization' => $this->data['organization'],
+                        'visitorNumber' => $this->visitorNumber,
                     ]);
     }
 

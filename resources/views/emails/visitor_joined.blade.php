@@ -7,15 +7,15 @@
 </head>
 <body>
     <h1>CheckMate</h1>
-    {{-- <p>Dear {{ $firstName }} {{ $lastName }},</p> --}}
     <p>{{ $data['first_name'] }} {{ $data['last_name'] }} has joined your visit.</p>
     <p>Details:</p>
     <ul>
-        <li>Designation: {{ $designation }}</li>
-        <li>Email: {{ $email }}</li>
-        <li>Phone: {{ $phone }}</li>
-        <li>Organization: {{ $organization }}</li>
+        <li>Designation: {{ $data['designation'] }}</li>
+        <li>Email: {{ $data['email'] }}</li>
+        <li>Phone: {{ $data['phone'] }}</li>
+        <li>Organization: {{ $data['organization'] }}</li>
     </ul>
+    <p>Visitor Number: {{ $visitorNumber }}</p> <!-- Include visitor number -->
     <p>Thank you!</p>
 </body>
 </html>

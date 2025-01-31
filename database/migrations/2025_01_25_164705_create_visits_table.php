@@ -10,10 +10,10 @@ class CreateVisitsTable extends Migration
         Schema::create('visits', function (Blueprint $table) {
             $table->id();
             $table->string('visit_number')->unique();
-            $table->string('visitor_number')->unique();
             $table->string('host_name');
             $table->string('visitor_name');
             $table->string('visitor_email');
+            $table->string('visitor_phone');
             $table->unsignedBigInteger('host_id');
             $table->timestamps();
         });
