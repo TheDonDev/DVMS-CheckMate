@@ -18,7 +18,7 @@ class Visitor extends Model
         'email',
         'phone',
         'id_number',
-        'visit_number', // Updated from visitor_number to visit_number
+        'visit_number',
         'host_name',
     ];
 }

@@ -11,12 +11,12 @@ class VisitBooked extends Mailable
     use Queueable, SerializesModels;
 
     public $visitorDetails;
-    public $visitorNumber;
+    public $visitNumber;
 
-    public function __construct($visitorDetails, $visitorNumber)
+    public function __construct($visitorDetails, $visitNumber)
     {
         $this->visitorDetails = $visitorDetails;
-        $this->visitorNumber = $visitorNumber;
+        $this->visitNumber = $visitNumber;
     }
 
     public function build()
@@ -24,7 +24,7 @@ class VisitBooked extends Mailable
         return $this->view('emails.visit_booked')
                     ->with([
                         'visitorDetails' => $this->visitorDetails,
-                        'visitorNumber' => $this->visitorNumber,
+                        'visitNumber' => $this->visitNumber,
                     ]);
     }
 }
