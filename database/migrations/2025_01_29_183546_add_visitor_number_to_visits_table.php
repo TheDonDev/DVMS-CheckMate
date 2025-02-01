@@ -26,4 +26,4 @@ class AddVisitorNumberToVisitsTable extends Migration
 
         });
     }
-};
+}

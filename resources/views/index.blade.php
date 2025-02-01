@@ -5,10 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CheckMate | Alupe University</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <link rel="stylesheets" href="{{ asset('css/app.css') }}">
     <script src="{{ asset('js/app.js') }}"></script>
     <script>
         window.successMessage = "{{ session('success') }}";
+        window.visitorNumber = "{{ session('visitor_number') }}";
+
+        document.addEventListener('DOMContentLoaded', function () {
+            if (window.successMessage) {
+                let message = window.successMessage;
+                if (window.visitorNumber) {
+                    message += ` Your visitor number is: ${window.visitorNumber}. You can share this number to let someone else join the visit.`;
+                }
+                alert(message);
+            }
+        });
     </script>
     <style>
         :root {
@@ -45,14 +56,6 @@
 
     <!-- Main Content -->
     <main class="container mx-auto mt-8">
-        <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                if (window.successMessage) {
-                    alert(window.successMessage);
-                }
-            });
-        </script>
-
         <!-- Homepage Overview -->
         <section class="text-center mb-12">
             <h2 class="text-3xl font-bold text-primary">Welcome to CheckMate</h2>

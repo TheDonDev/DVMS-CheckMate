@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Visit;
+use App\Models\Visitor; // Ensure to import the Visitor model
 use App\Models\Host;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -29,7 +29,7 @@ class VisitController extends Controller
                 'visit_from' => 'required|string',
                 'visit_to' => 'required|string',
                 'purpose_of_visit' => 'required|string',
-                'host_name' => 'required|string',
+                'host_name' => 'required|string'
             ]);
 
             // Log the validated data
@@ -41,18 +41,24 @@ class VisitController extends Controller
             // Send email to visitor
             Mail::to($validatedData['email'])->send(new VisitBooked($validatedData, $visitorNumber));
 
-            // Save the visit data to the database
-            Visit::create([
+            // Get host email
+            $hostEmail = Host::where('name', $validatedData['host_name'])->value('email');
+
+            // Send email to host
+            Mail::to($hostEmail)->send(new VisitBooked($validatedData, $visitorNumber));
+
+            // Save the visitor data to the database
+            Visitor::create([
                 'visitor_number' => $visitorNumber,
                 'host_name' => $validatedData['host_name'],
                 'visitor_name' => "{$validatedData['first_name']} {$validatedData['last_name']}",
                 'visitor_email' => $validatedData['email'],
-                'visitor_phone' => $validatedData['visitor_phone'],
-                'host_id' => $this->getHostId($validatedData['host_name']),
+                'visitor_phone' => $validatedData['phone'],
             ]);
 
-             // Redirect back to index with success message
-        return redirect('/')->with('success', "Dear {$validatedData['first_name']}, your details for the Visit submitted successfully. Visit no. {$visitNumber}. You can share this visit number to let someone else join the visit.");
+            // Redirect back to index with success message
+            return redirect('/')->with('success', "Dear {$validatedData['first_name']}, your details for the Visit submitted successfully. Visit no. {$visitorNumber}. You can share this visit number to let someone else join the visit.")
+                                ->with('visitor_number', $visitorNumber);
         } catch (\Exception $e) {
             Log::error('Error processing booking visit: ' . $e->getMessage());
             return redirect('/')->with('error', 'There was an error processing your visit. Please try again.');
@@ -61,13 +67,13 @@ class VisitController extends Controller
 
     public function showVisitStatus(Request $request)
     {
-        $visitNumber = $request->input('visit_number');
-        Log::info('Checking visit status for visit number: ' . $visitNumber);
+        $visitorNumber = $request->input('visitor_number');
+        Log::info('Checking visit status for visit number: ' . $visitorNumber);
 
-        $visit = Visit::where('visitor_number', $visitNumber)->first();
+        $visit = Visitor::where('visitor_number', $visitorNumber)->first();
 
         if (!$visit) {
-            Log::warning('Visit not found for visit number: ' . $visitNumber);
+            Log::warning('Visit not found for visitor number: ' . $visitorNumber);
             return redirect('/')->with('error', 'Visit not found.');
         }
 
