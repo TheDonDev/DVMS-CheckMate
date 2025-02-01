@@ -23,6 +23,6 @@
         <li><strong>Purpose of Visit:</strong> {{ $visitorDetails['purpose_of_visit'] }}</li>
         <li><strong>Host Name:</strong> {{ $visitorDetails['host_name'] }}</li>
     </ul>
-    <p>Visitor Number: {{ $visitorNumber }}</p>
+    <p>Visit Number: {{ $visitNumber }}</p>
 </body>
 </html>

@@ -9,9 +9,6 @@ class Visitor extends Model
 {
     use HasFactory;
 
-
-    // protected $table = 'visitors';
-
     // Define fillable fields
     protected $fillable = [
         'first_name',
@@ -21,7 +18,7 @@ class Visitor extends Model
         'email',
         'phone',
         'id_number',
-        'visit_number',
+        'visit_number', // Updated from visitor_number to visit_number
         'host_name',
     ];
 }

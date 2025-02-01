@@ -11,8 +11,8 @@ class AddVisitorNumberToVisitsTable extends Migration
      */
     public function up(): void
     {
-        Schema::table('visits', function (Blueprint $table) {
-            $table->string('visitor_number')->after('visit_number');
+        Schema::table('visitors', function (Blueprint $table) {
+            $table->string('visit_number')->after('visit_number'); // Updated from visitor_number to visit_number
         });
     }
 
@@ -21,9 +21,8 @@ class AddVisitorNumberToVisitsTable extends Migration
      */
     public function down(): void
     {
-        Schema::table('visits', function (Blueprint $table) {
-            $table->dropColumn('visitor_number');
-
+        Schema::table('visitors', function (Blueprint $table) {
+            $table->dropColumn('visit_number');
         });
     }
 }

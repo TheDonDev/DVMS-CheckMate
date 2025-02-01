@@ -12,7 +12,7 @@ class AddHostNumberToHostsTable extends Migration
     public function up()
     {
         Schema::table('hosts', function (Blueprint $table) {
-            $table->string('host_number')->nullable(); // Add Host Number column
+            $table->string('host_number')->nullable();
         });
     }
 
@@ -22,7 +22,7 @@ class AddHostNumberToHostsTable extends Migration
     public function down()
     {
         Schema::table('hosts', function (Blueprint $table) {
-            $table->dropColumn('host_number'); // Drop Host Number column
+            $table->dropColumn('host_number');
         });
     }
 }

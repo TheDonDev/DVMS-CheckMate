@@ -12,11 +12,11 @@ return new class extends Migration
         if (!Schema::hasTable('feedback')) {
         Schema::create('feedback', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('visit_id');
+            $table->unsignedBigInteger('visitor_id');
             $table->text('feedback');
             $table->timestamps();
 
-            $table->foreign('visit_id')->references('id')->on('visits')->onDelete('cascade');
+            $table->foreign('visitor_id')->references('id')->on('visitor')->onDelete('cascade');
         });
     }
     }

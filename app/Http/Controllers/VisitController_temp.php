@@ -16,6 +16,7 @@ class VisitController_temp extends Controller
         try {
             // Validate the incoming request data
             $validatedData = $request->validate([
+                'visit_id' => 'required|string',
                 'first_name' => 'required|string|max:255',
                 'last_name' => 'required|string|max:255',
                 'designation' => 'required|string|max:255',
@@ -35,21 +36,29 @@ class VisitController_temp extends Controller
             // Log the validated data
             Log::info('Validated Data:', $validatedData);
 
-            // Generate a random visitor number
-            $visitorNumber = rand(1000000000, 9999999999);
-            $visitNumber = rand(1000000000, 9999999999); // Example logic for generating visit number
+            // Generate a random visit number
+            $visitNumber = rand(1000000000, 9999999999);
 
             // Send email to visitor
-            Mail::to($validatedData['email'])->send(new VisitBooked($validatedData, $visitorNumber));
+            Mail::to($validatedData['email'])->send(new VisitBooked($validatedData, $visitNumber));
 
-            // Save the visit data to the database
+            // Save the visitor data to the database
             Visit::create([
-                'visitor_number' => $visitorNumber,
-                'visit_number' => $visitNumber, // Ensure visit_number is included
+                'visit_id' => $validatedData['visit_id'],
+                'visit_number' => $visitNumber, // Updated to visit_number
                 'host_name' => $validatedData['host_name'],
                 'visitor_name' => "{$validatedData['first_name']} {$validatedData['last_name']}",
                 'visitor_email' => $validatedData['email'],
-                'host_id' => $this->getHostId($validatedData['host_name']),
+                'visitor_phone' => $validatedData['phone'],
+                'id_number' => $validatedData['id_number'],
+                'designation' => $validatedData['designation'],
+                'organization' => $validatedData['organization'],
+                'visit_type' => $validatedData['visit_type'],
+                'visit_facility' => $validatedData['visit_facility'],
+                'visit_date' => $validatedData['visit_date'],
+                'visit_from' => $validatedData['visit_from'],
+                'visit_to' => $validatedData['visit_to'],
+                'purpose_of_visit' => $validatedData['purpose_of_visit']
             ]);
 
             // Redirect back to index with success message
@@ -62,10 +71,10 @@ class VisitController_temp extends Controller
 
     public function showVisitStatus(Request $request)
     {
-        $visitNumber = $request->input('visit_number');
+        $visitNumber = $request->input('visit_number'); // Updated to visit_number
         Log::info('Checking visit status for visit number: ' . $visitNumber);
 
-        $visit = Visit::where('visitor_number', $visitNumber)->first();
+        $visit = Visit::where('visit_number', $visitNumber)->first(); // Updated to visit_number
 
         if (!$visit) {
             Log::warning('Visit not found for visit number: ' . $visitNumber);
