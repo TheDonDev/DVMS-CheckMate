@@ -12,7 +12,7 @@ class AddVisitorNumberToVisitsTable extends Migration
     public function up(): void
     {
         Schema::table('visitors', function (Blueprint $table) {
-            $table->string('visit_number')->after('visit_number'); // Updated from visitor_number to visit_number
+            $table->string('visit_number')->after('visit_number');
         });
     }
 

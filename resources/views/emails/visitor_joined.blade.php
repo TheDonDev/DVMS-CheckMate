@@ -15,7 +15,7 @@
         <li>Phone: {{ $data['phone'] }}</li>
         <li>Organization: {{ $data['organization'] }}</li>
     </ul>
-    <p>Visitor Number: {{ $visitorNumber }}</p> <!-- Include visitor number -->
+    <p>Visitor Number: {{ $visitNumber }}</p> <!-- Include visitor number -->
     <p>Thank you!</p>
 </body>
 </html>

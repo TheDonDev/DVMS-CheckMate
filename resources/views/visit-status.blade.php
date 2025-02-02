@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Visit Status</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link rel="stylesheets" href="{{ asset('css/app.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <script src="{{ asset('js/app.js') }}"></script>
     <style>
         :root {
@@ -39,9 +39,9 @@
         <div class="grid grid-cols-2 gap-4">
             <div>
                 <h3 class="font-semibold text-gray-700">Visitor Details</h3>
-                <p>Number: {{ $visitor->visitor_number }}</p>
-                <p>Name: {{ $visitor->first_name }} {{ $visitor->last_name }}</p>
-                <p>Organization: {{ $visitor->organization }}</p>
+                <p>Number: {{ $visit->visit_number }}</p>
+                <p>Name: {{ $visit->visitor_name }}</p>
+                <p>Organization: {{ $visit->organization }}</p>
             </div>
             <div>
                 <h3 class="font-semibold text-gray-700">Host Details</h3>
@@ -52,13 +52,24 @@
 
             <div class="col-span-2 mt-4">
                 <h3 class="font-semibold text-gray-700">Visit Details</h3>
-                <p>Date: {{ $visitor->visit_date }}</p>
-                <p>Time: {{ $visitor->visit_from }} - {{ $visitor->visit_to }}</p>
-                <p>Purpose: {{ $visitor->purpose_of_visit }}</p>
+                <p>Date: {{ $visit->visit_date }}</p>
+                <p>Time: {{ $visit->visit_from }} - {{ $visit->visit_to }}</p>
+                <p>Purpose: {{ $visit->purpose_of_visit }}</p>
             </div>
         </div>
     </div>
-</x-app-layout>
+    
+    <form action="{{ route('feedback.submit') }}" method="POST" class="mt-6">
+        @csrf
+        <div class="bg-white shadow-lg rounded-lg p-6">
+            <h3 class="text-2xl font-bold text-primary mb-4">Feedback</h3>
+            <textarea name="feedback" placeholder="Your feedback here..." class="border p-2 rounded w-full" rows="4" required></textarea>
+            <div class="flex justify-end mt-4">
+                <button type="submit" class="bg-primary text-white px-4 py-2 rounded">Submit Feedback</button>
+            </div>
+        </div>
+    </form>
+
     <form action="{{ route('visit.status') }}" method="POST" id="visit-status-form">
         @csrf
         <input type="hidden" name="visit_number" value="{{ $visit->visit_number }}">

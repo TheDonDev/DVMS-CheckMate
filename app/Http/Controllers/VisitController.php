@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Visit; // import the Visit model
+use App\Models\Visitor; // import the Visit model
 use App\Models\Host;
+use App\Models\Feedback; // Import the Feedback model
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log; // Import Log facade
@@ -49,10 +50,9 @@ class VisitController extends Controller
             Mail::to($hostEmail)->send(new VisitBooked($validatedData, $visitNumber));
 
             // Save the visitor data to the database
-            Visit::create([
+            Visitor::create([
                 'visit_id' => $validatedData['visit_id'],
-                'visit_number' => $visitNumber, // Updated to visit_number
-                'host_name' => $validatedData['host_name'],
+                'visit_number' => $visitNumber,
                 'visitor_name' => "{$validatedData['first_name']} {$validatedData['last_name']}",
                 'visitor_email' => $validatedData['email'],
                 'visitor_phone' => $validatedData['phone'],
@@ -64,12 +64,14 @@ class VisitController extends Controller
                 'visit_date' => $validatedData['visit_date'],
                 'visit_from' => $validatedData['visit_from'],
                 'visit_to' => $validatedData['visit_to'],
-                'purpose_of_visit' => $validatedData['purpose_of_visit']
+                'purpose_of_visit' => $validatedData['purpose_of_visit'],
+                'host_name' => $validatedData['host_name'],
             ]);
 
             // Redirect back to index with success message
+            session(['visit_number' => $visitNumber]); // Store visit number in session
             return redirect('/')->with('success', "Dear {$validatedData['first_name']}, your details for the Visit submitted successfully. Visit no. {$visitNumber}. You can share this visit number to let someone else join the visit.")
-                                ->with('visit_number', $visitNumber); // Updated to visit_number
+                                ->with('visit_number', $visitNumber);
         } catch (\Exception $e) {
             Log::error('Error processing booking visit: ' . $e->getMessage());
             return redirect('/')->with('error', 'There was an error processing your visit. Please try again.');
@@ -81,15 +83,30 @@ class VisitController extends Controller
         $visitNumber = $request->input('visit_number'); // Updated to visit_number
         Log::info('Checking visit status for visit number: ' . $visitNumber);
 
-        $visit = Visit::where('visit_number', $visitNumber)->first(); // Updated to visit_number
+        $visit = Visitor::where('visit_number', $visitNumber)->first(); // Updated to visit_number
 
         if (!$visit) {
             Log::warning('Visit not found for visit number: ' . $visitNumber);
             return redirect('/')->with('error', 'Visit not found.');
         }
 
-        $host = Host::find($visit->host_id);
+        $host = Host::where('name', $visit->host_name)->first(); // Fetch host details
         return view('visit-status', ['visit' => $visit, 'host' => $host]);
+    }
+
+    public function submitFeedback(Request $request)
+    {
+        $validatedData = $request->validate([
+            'feedback' => 'required|string|max:1000',
+        ]);
+
+        // Save feedback to the database
+        Feedback::create([
+            'visitor_id' => $request->user()->id, // Assuming the user is authenticated
+            'feedback' => $validatedData['feedback'],
+        ]);
+
+        return redirect()->back()->with('success', 'Thank you for your feedback!');
     }
 
     private function getHostId($hostName)

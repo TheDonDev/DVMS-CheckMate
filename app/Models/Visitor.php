@@ -11,14 +11,20 @@ class Visitor extends Model
 
     // Define fillable fields
     protected $fillable = [
+        'visit_number',
         'first_name',
         'last_name',
         'designation',
         'organization',
         'email',
-        'phone',
+        'phone_number',
         'id_number',
-        'visit_number',
+        'visit_type',
+        'visit_facility',
+        'visit_date',
+        'visit_from',
+        'visit_to',
+        'visit_purpose',
         'host_name',
     ];
 }

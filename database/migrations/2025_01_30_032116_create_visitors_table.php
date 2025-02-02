@@ -13,7 +13,7 @@ class CreateVisitorsTable extends Migration
     {
         Schema::create('visitors', function (Blueprint $table) {
             $table->id();
-            $table->string('visit_number'); // Updated from visitor_number to visit_number
+            $table->string('visit_number');
             $table->string('first_name');
             $table->string('last_name');
             $table->string('designation');
