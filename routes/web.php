@@ -1,13 +1,14 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\VisitController;
+use App\Http\Controllers\VisitController; // Ensure this is declared only once
 use Illuminate\Support\Facades\Mail;
 
 // Routes for Visit Status
 Route::get('/visit-status', function () {
     return view('visit-status');
 })->name('visit.status');
+
 Route::post('/visit-status', [VisitController::class, 'showVisitStatus'])->name('visit.status');
 
 // Route to notify host via AJAX
@@ -34,7 +35,6 @@ Route::get('/test-email', function () {
 Route::get('/', function () {
     return view('index');
 })->name('index');
-
 
 // Routes for booking a visit
 Route::get('book-visit', function () {

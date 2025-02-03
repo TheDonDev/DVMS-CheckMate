@@ -9,13 +9,13 @@
     <script src="{{ asset('js/app.js') }}"></script>
     <script>
         window.successMessage = "{{ session('success') }}";
-        window.visitorNumber = "{{ session('visitor_number') }}";
+        window.visitNumber = "{{ session('visit_number') }}";
 
         document.addEventListener('DOMContentLoaded', function () {
             if (window.successMessage) {
                 let message = window.successMessage;
-                if (window.visitorNumber) {
-                    message += ` Your visitor number is: ${window.visitorNumber}. You can share this number to let someone else join the visit.`;
+                if (window.visitNumber) {
+                    message += ` Your visitor number is: ${window.visitNumber}. You can share this number to let someone else join the visit.`;
                 }
                 alert(message);
             }

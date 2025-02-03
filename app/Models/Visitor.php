@@ -24,7 +24,7 @@ class Visitor extends Model
         'visit_date',
         'visit_from',
         'visit_to',
-        'visit_purpose',
+        'purpose_of_visit',
         'host_name',
     ];
 }

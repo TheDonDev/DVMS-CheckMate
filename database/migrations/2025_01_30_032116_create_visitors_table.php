@@ -28,6 +28,7 @@ class CreateVisitorsTable extends Migration
             $table->time('visit_to');
             $table->text('purpose_of_visit');
             $table->string('host_name');
+            $table->text('feedback')->nullable(); // Added feedback field
             $table->timestamps();
         });
     }

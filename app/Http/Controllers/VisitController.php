@@ -23,7 +23,7 @@ class VisitController extends Controller
                 'designation' => 'required|string|max:255',
                 'organization' => 'required|string|max:255',
                 'email' => 'required|email',
-                'phone' => 'required|string|max:15',
+                'phone_number' => 'required|string|max:15',
                 'id_number' => 'required|string|max:20',
                 'visit_type' => 'required|string',
                 'visit_facility' => 'required|string',
@@ -39,23 +39,51 @@ class VisitController extends Controller
 
             // Generate a random visit number
             $visitNumber = rand(1000000000, 9999999999);
+            $hostEmail = Host::where('name', $validatedData['host_name'])->value('email');
 
-            // Send email to visitor
+            // Send email to visitor and log the action
+            Log::info('Sending email to visitor: ' . $validatedData['email']);
             Mail::to($validatedData['email'])->send(new VisitBooked($validatedData, $visitNumber));
 
             // Get host email
             $hostEmail = Host::where('name', $validatedData['host_name'])->value('email');
 
+            // Check if host email is found
+            if (!$hostEmail) {
+                Log::error('Host email not found for host name: ' . $validatedData['host_name']);
+                return redirect('/')->with('error', 'Host email not found. Please check the host name.');
+            }
+
             // Send email to host
             Mail::to($hostEmail)->send(new VisitBooked($validatedData, $visitNumber));
 
-            // Save the visitor data to the database
+            // Save the visitor data to the database and log the action
             Visitor::create([
                 'visit_id' => $validatedData['visit_id'],
                 'visit_number' => $visitNumber,
-                'visitor_name' => "{$validatedData['first_name']} {$validatedData['last_name']}",
-                'visitor_email' => $validatedData['email'],
-                'visitor_phone' => $validatedData['phone'],
+                'first_name' => $validatedData['first_name'],
+                'last_name' => $validatedData['last_name'],
+                'email' => $validatedData['email'],
+                'phone_number' => $validatedData['phone_number'],
+                'id_number' => $validatedData['id_number'],
+                'designation' => $validatedData['designation'],
+                'organization' => $validatedData['organization'],
+                'visit_type' => $validatedData['visit_type'],
+                'visit_facility' => $validatedData['visit_facility'],
+                'visit_date' => $validatedData['visit_date'],
+                'visit_from' => $validatedData['visit_from'],
+                'visit_to' => $validatedData['visit_to'],
+                'purpose_of_visit' => $validatedData['purpose_of_visit'],
+                'host_name' => $validatedData['host_name'],
+            ]);
+            Log::info('Saving visitor data to the database:', $validatedData);
+            Visitor::create([
+                'visit_id' => $validatedData['visit_id'],
+                'visit_number' => $visitNumber,
+                'first_name' => $validatedData['first_name'],
+                'last_name' => $validatedData['last_name'],
+                'email' => $validatedData['email'],
+                'phone_number' => $validatedData['phone_number'],
                 'id_number' => $validatedData['id_number'],
                 'designation' => $validatedData['designation'],
                 'organization' => $validatedData['organization'],
@@ -69,49 +97,32 @@ class VisitController extends Controller
             ]);
 
             // Redirect back to index with success message
-            session(['visit_number' => $visitNumber]); // Store visit number in session
+            session(['visit_number' => $visitNumber]);
             return redirect('/')->with('success', "Dear {$validatedData['first_name']}, your details for the Visit submitted successfully. Visit no. {$visitNumber}. You can share this visit number to let someone else join the visit.")
-                                ->with('visit_number', $visitNumber);
+                                ->with('visit_number', $visitNumber)
+                                ->with('error', null);
         } catch (\Exception $e) {
             Log::error('Error processing booking visit: ' . $e->getMessage());
             return redirect('/')->with('error', 'There was an error processing your visit. Please try again.');
         }
     }
 
-    public function showVisitStatus(Request $request)
-    {
-        $visitNumber = $request->input('visit_number'); // Updated to visit_number
-        Log::info('Checking visit status for visit number: ' . $visitNumber);
-
-        $visit = Visitor::where('visit_number', $visitNumber)->first(); // Updated to visit_number
-
-        if (!$visit) {
-            Log::warning('Visit not found for visit number: ' . $visitNumber);
-            return redirect('/')->with('error', 'Visit not found.');
-        }
-
-        $host = Host::where('name', $visit->host_name)->first(); // Fetch host details
-        return view('visit-status', ['visit' => $visit, 'host' => $host]);
-    }
-
-    public function submitFeedback(Request $request)
+    public function saveFeedback(Request $request)
     {
         $validatedData = $request->validate([
             'feedback' => 'required|string|max:1000',
+            'visit_number' => 'required|string',
         ]);
 
-        // Save feedback to the database
+        // Log the feedback submission
+        Log::info('Feedback submitted for visit number: ' . $validatedData['visit_number'], $validatedData);
+
+        // Save feedback to the database (assuming a Feedback model exists)
         Feedback::create([
-            'visitor_id' => $request->user()->id, // Assuming the user is authenticated
+            'visit_number' => $validatedData['visit_number'],
             'feedback' => $validatedData['feedback'],
         ]);
 
         return redirect()->back()->with('success', 'Thank you for your feedback!');
-    }
-
-    private function getHostId($hostName)
-    {
-        $host = Host::where('name', $hostName)->first();
-        return $host ? $host->id : null; // Return null if host not found
     }
 }

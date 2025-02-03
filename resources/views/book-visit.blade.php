@@ -1,115 +1,42 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Book a Visit | CheckMate</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-    <script src="{{ asset('js/app.js') }}"></script>
-    <style>
-        :root {
-            --primary-color: #004080;
-            --secondary-color: #ffcc00;
-        }
+@extends('layouts.app')
 
-        .bg-primary {
-            background-color: var(--primary-color);
-        }
-
-        .text-primary {
-            color: var(--primary-color);
-        }
-
-        .bg-secondary {
-            background-color: var(--secondary-color);
-        }
-
-        .text-secondary {
-            color: var(--secondary-color);
-        }
-    </style>
-</head>
-<body class="bg-gray-100 font-sans leading-normal tracking-normal">
-
-    <header class="bg-primary text-white py-4">
-        <div class="container mx-auto flex items-center justify-between">
-            <h1 class="text-2xl font-bold">CheckMate</h1>
-            <img src="{{ asset('images/download.jfif') }}" alt="Alupe University Logo" class="h-12">
+@section('content')
+<div class="container mx-auto">
+    <h1 class="text-2xl font-bold">Book a Visit</h1>
+    <form action="{{ route('book.visit') }}" method="POST" class="space-y-4">
+        @csrf
+        <div>
+            <label for="first_name" class="block">First Name</label>
+            <input type="text" name="first_name" id="first_name" required class="border rounded w-full">
         </div>
-    </header>
-
-    <main class="container mx-auto mt-8">
-        <section class="bg-white shadow-lg rounded-lg p-6">
-            <h2 class="text-2xl font-bold text-primary mb-4">Book a Visit</h2>
-            <form action="{{ route('book.visit.submit') }}" method="POST" novalidate>
-                @csrf
-                <input type="hidden" name="visit_number" value="{{ session('visit_number', '') }}">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <input type="text" name="first_name" placeholder="First Name" class="border p-2 rounded" required minlength="2">
-                    <input type="text" name="last_name" placeholder="Last Name" class="border p-2 rounded" required minlength="2">
-                    <input type="text" name="designation" placeholder="Designation" class="border p-2 rounded" required>
-                    <input type="text" name="organization" placeholder="Organization" class="border p-2 rounded" required minlength="2">
-                    <input type="email" name="email" placeholder="Email Address" class="border p-2 rounded" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">
-                    <input type="text" name="phone" placeholder="Phone Number" class="border p-2 rounded" required pattern="\d{10,15}">
-                    <input type="text" name="id_number" placeholder="ID Number" class="border p-2 rounded" required pattern="\w{1,20}">
-                    <select name="visit_type" class="border p-2 rounded" required>
-                        <option value="" disabled selected>Visit Type</option>
-                        <option value="Business">Business</option>
-                        <option value="Official">Official</option>
-                        <option value="Educational">Educational</option>
-                        <option value="Social">Social</option>
-                        <option value="Tour">Tour</option>
-                        <option value="Other">Other</option>
-                    </select>
-                    <select name="visit_facility" class="border p-2 rounded" required>
-                        <option value="" disabled selected>Visit Facility</option>
-                        <option value="Library">Library</option>
-                        <option value="Administration Block">Administration Block</option>
-                        <option value="Science Block">Science Block</option>
-                        <option value="Auditorium">Auditorium</option>
-                        <option value="SHS">School Of Health Science</option>
-                    </select>
-                    <input type="date" name="visit_date" class="border p-2 rounded" required>
-                    <div class="flex items-center gap-2">
-                        <label for="visit-from" class="text-gray-700">From:</label>
-                        <input type="time" id="visit-from" name="visit_from" class="border p-2 rounded w-full" required>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <label for="visit-to" class="text-gray-700">To:</label>
-                        <input type="time" id="visit-to" name="visit_to" class="border p-2 rounded w-full" required>
-                    </div>
-                    <textarea name="purpose_of_visit" placeholder="Purpose of Visit" class="border p-2 rounded w-full md:col-span-full" rows="2" required minlength="10"></textarea>
-                    <select name="host_name" class="border p-2 rounded w-full md:col-span-full" required>
-                        <option value="" disabled selected>Host's Name</option>
-                        <option value="Prof. Barasa Lwagula">Prof. Barasa Lwagula (VC)</option>
-                        <option value="Prof. John Chang'ach">Prof. John Chang'ach (DVC)</option>
-                        <option value="Dr. Titus Muhambe">Dr. Titus Muhambe</option>
-                        <option value="Dr. Bostley Asenahabi">Dr. Bostley Asenahabi </option>
-                        <option value="Dr. D.K Muyobo">Dr. D.K Muyobo</option>
-                        <option value="Dr. Victor Mengwa">Dr. Victor Mengwa</option>
-                        <option value="Dr. Pamela Nyongesa">Dr. Pamela Nyongesa</option>
-                        <option value="Dr. Caren Jerop">Dr. Caren Jerop</option>
-                        <option value="Dorcas Shisoka">Dorcas Shisoka</option>
-                        <option value="Genvieve Nasimiyu">Genvieve Nasimiyu (Dean of Students)</option>
-                    </select>
-                </div>
-                <div class="flex justify-end gap-4 mt-6">
-                    <a href="/" class="bg-gray-300 text-gray-800 px-4 py-2 rounded">Cancel</a>
-                    <button type="submit" class="bg-primary text-white px-4 py-2 rounded">Submit</button>
-                    @if (session('success'))
-                        <div class="text-green-500 mt-4">{{ session('success') }}</div>
-                    @endif
-                </div>
-            </form>
-        </section>
-    </main>
-
-    <footer class="bg-primary text-white py-4 mt-12">
-        <div class="container mx-auto text-center">
-            <p>&copy; 2025 Alupe University. All rights reserved.</p>
+        <div>
+            <label for="last_name" class="block">Last Name</label>
+            <input type="text" name="last_name" id="last_name" required class="border rounded w-full">
         </div>
-    </footer>
-
-</body>
-</html>
+        <div>
+            <label for="email" class="block">Email</label>
+            <input type="email" name="email" id="email" required class="border rounded w-full">
+        </div>
+        <div>
+            <label for="phone_number" class="block">Phone Number</label>
+            <input type="text" name="phone_number" id="phone_number" required class="border rounded w-full">
+        </div>
+        <div>
+            <label for="visit_type" class="block">Visit Type</label>
+            <select name="visit_type" id="visit_type" required class="border rounded w-full">
+                <option value="Business">Business</option>
+                <option value="Official">Official</option>
+                <option value="Educational">Educational</option>
+                <option value="Social">Social</option>
+                <option value="Tour">Tour</option>
+                <option value="Other">Other</option>
+            </select>
+        </div>
+        <div>
+            <label for="feedback" class="block">Feedback</label>
+            <textarea name="feedback" id="feedback" class="border rounded w-full" rows="4" placeholder="Your feedback..."></textarea>
+        </div>
+        <button type="submit" class="bg-blue-500 text-white rounded px-4 py-2">Submit</button>
+    </form>
+</div>
+@endsection
