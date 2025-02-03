@@ -11,7 +11,7 @@ class Visitor extends Model
 
     // Define fillable fields
     protected $fillable = [
-        'visit_number',
+        // 'visit_number', // Removed visit_number from fillable fields
         'first_name',
         'last_name',
         'designation',

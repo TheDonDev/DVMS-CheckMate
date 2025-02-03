@@ -4,25 +4,30 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddVisitorNumberToVisitsTable extends Migration
+class AddVisitFieldsToVisitorsTable extends Migration
 {
     /**
      * Run the migrations.
+     *
+     * @return void
      */
-    public function up(): void
+    public function up()
     {
         Schema::table('visitors', function (Blueprint $table) {
-            $table->string('visit_number')->after('visit_number');
+            $table->string('visit_type')->nullable();
+            $table->string('visit_facility')->nullable();
         });
     }
 
     /**
      * Reverse the migrations.
+     *
+     * @return void
      */
-    public function down(): void
+    public function down()
     {
         Schema::table('visitors', function (Blueprint $table) {
-            $table->dropColumn('visit_number');
+            $table->dropColumn(['visit_type', 'visit_facility']);
         });
     }
 }
