@@ -13,10 +13,10 @@ return new class extends Migration
         Schema::create('feedback', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('visitor_id');
-            $table->text('feedback');
+$table->text('feedback')->default('No feedback provided');
             $table->timestamps();
 
-            $table->foreign('visitor_id')->references('id')->on('visitor')->onDelete('cascade');
+            $table->foreign('visitor_id')->references('id')->on('visitors')->onDelete('cascade');
         });
     }
     }

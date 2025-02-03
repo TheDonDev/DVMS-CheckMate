@@ -41,11 +41,20 @@ class VisitController extends Controller
             $visitNumber = rand(1000000000, 9999999999);
             $hostEmail = Host::where('name', $validatedData['host_name'])->value('email');
 
+            // Create a new host if not exists
+            if (!$hostEmail) {
+                Host::create([
+                    'host_name' => $validatedData['host_name'],
+                    'host_email' => $validatedData['email'],
+                    'host_number' => $validatedData['phone_number']
+                ]);
+            }
+
             // Send email to visitor and log the action
             Log::info('Sending email to visitor: ' . $validatedData['email']);
             Mail::to($validatedData['email'])->send(new VisitBooked($validatedData, $visitNumber));
 
-            // Get host email
+            // Get host email again after creation
             $hostEmail = Host::where('name', $validatedData['host_name'])->value('email');
 
             // Check if host email is found
@@ -77,24 +86,6 @@ class VisitController extends Controller
                 'host_name' => $validatedData['host_name'],
             ]);
             Log::info('Saving visitor data to the database:', $validatedData);
-            Visitor::create([
-                'visit_id' => $validatedData['visit_id'],
-                'visit_number' => $visitNumber,
-                'first_name' => $validatedData['first_name'],
-                'last_name' => $validatedData['last_name'],
-                'email' => $validatedData['email'],
-                'phone_number' => $validatedData['phone_number'],
-                'id_number' => $validatedData['id_number'],
-                'designation' => $validatedData['designation'],
-                'organization' => $validatedData['organization'],
-                'visit_type' => $validatedData['visit_type'],
-                'visit_facility' => $validatedData['visit_facility'],
-                'visit_date' => $validatedData['visit_date'],
-                'visit_from' => $validatedData['visit_from'],
-                'visit_to' => $validatedData['visit_to'],
-                'purpose_of_visit' => $validatedData['purpose_of_visit'],
-                'host_name' => $validatedData['host_name'],
-            ]);
 
             // Redirect back to index with success message
             session(['visit_number' => $visitNumber]);
