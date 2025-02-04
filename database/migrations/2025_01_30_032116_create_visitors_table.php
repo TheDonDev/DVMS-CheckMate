@@ -13,7 +13,6 @@ class CreateVisitorsTable extends Migration
     {
         Schema::create('visitors', function (Blueprint $table) {
             $table->id();
-            // $table->string('visit_number'); // Removed visit_number from the visitors table
             $table->string('first_name');
             $table->string('last_name');
             $table->string('designation');
@@ -28,7 +27,6 @@ class CreateVisitorsTable extends Migration
             $table->time('visit_to');
             $table->text('purpose_of_visit');
             $table->string('host_name');
-            $table->text('feedback')->nullable();
             $table->timestamps();
         });
     }
