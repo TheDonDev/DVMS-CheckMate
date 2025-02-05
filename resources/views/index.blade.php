@@ -17,10 +17,20 @@
                 if (window.visitNumber) {
                     message += ` Your visitor number is: ${window.visitNumber}. You can share this number to let someone else join the visit.`;
                 }
-                alert(message);
+                document.getElementById('success-text').innerText = message;
+                document.getElementById('success-message').classList.remove('hidden');
             }
         });
     </script>
+
+    <!-- Success Message Popup -->
+    <div id="success-message" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75 hidden">
+        <div class="bg-white p-6 rounded-lg shadow-lg text-center">
+            <h2 class="text-xl font-bold text-primary">Success!</h2>
+            <p id="success-text"></p>
+            <button onclick="document.getElementById('success-message').classList.add('hidden')" class="mt-4 bg-primary text-white px-4 py-2 rounded">Close</button>
+        </div>
+    </div>
     <style>
         :root {
             --primary-color: #004080; /* Alupe's blue */

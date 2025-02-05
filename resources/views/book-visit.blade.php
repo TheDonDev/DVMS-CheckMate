@@ -45,7 +45,7 @@
     <main class="container mx-auto mt-8 h-screen flex flex-col justify-between">
         <section class="bg-white shadow-lg rounded-lg p-6 flex-1 overflow-y-auto">
             <h2 class="text-2xl font-bold text-primary mb-4">Book a Visit</h2>
-            <form action="{{ route('book.visit.submit') }}" method="POST">
+            <form action="{{ route('book.visit.submit') }}" method="POST" onsubmit="showSuccessMessage(event)">
                 @csrf
                 <div class="flex space-x-4 mb-4">
                     <div class="flex-1">
@@ -128,11 +128,43 @@
                     <label for="host_name">Host Name</label>
                     <select class="border p-2 rounded w-full" id="host_name" name="host_name" required>
                         <option value="">Select Host Name</option>
-                        <option value="Prof. Barasa Lwagula">Prof. Barasa Lwagula</option>
-                        <option value="Prof. John Changach">Prof. John Changach</option>
-                        <option value="Dr. Titus Muhambe">Dr. Titus Muhambe</option>
-                        <option value="Dr. Bostley Asenahabi D.K. Muyobo">Dr. Bostley Asenahabi</option>
+                        <option value="Prof. Peter Barasa">Prof. Peter Barasa</option>
+                        <option value="Prof. John Changa'ch">Prof. John Changa'ch</option>
+                        <option value="Prof. Wilfred Emonyi Injera">Prof. Wilfred Emonyi Injera</option>
+                        <option value="Dr. Magero Denis">Dr. Magero Denis</option>
+                        <option value="Dr. Muhambe Titus Mukisa">Dr. Muhambe Titus Mukisa</option>
+                        <option value="Dr. Bostley Asenahabi">Dr. Bostley Asenahabi</option>
+                        <option value="Dr. William Nyabola Okedi">Dr. William Nyabola Okedi</option>
                         <option value="Dr. D.K Muyobo">Dr. D.K Muyobo</option>
+                        <option value="Dr. Mahero Bernard Toboso">Dr. Mahero Bernard Toboso</option>
+                        <option value="Dr. Mengwa Victor">Dr. Mengwa Victor</option>
+                        <option value="Mr. Korkoren Kenneth">Mr. Korkoren Kenneth</option>
+                        <option value="Dr. Morris M. Mwatu">Dr. Morris M. Mwatu</option>
+                        <option value="Dr. Arnety Nangila Makokha">Dr. Arnety Nangila Makokha</option>
+                        <option value="Dr. Hillary Oundo Busolo">Dr. Hillary Oundo Busolo</option>
+                        <option value="Dr. Peninah Tanui Melly">Dr. Peninah Tanui Melly</option>
+                        <option value="Dr. Ruth Adhoch-Odhiambo">Dr. Ruth Adhoch-Odhiambo</option>
+                        <option value="Mr. Kevin Omondi Ondoo">Mr. Kevin Omondi Ondoo</option>
+                        <option value="Dr. Caroline Wakoli">Dr. Caroline Wakoli</option>
+                        <option value="Dr. Johnstone Milimo Eyinda">Dr. Johnstone Milimo Eyinda</option>
+                        <option value="Dr. Caroline Ombok">Dr. Caroline Ombok</option>
+                        <option value="Dr. Wycliffe Osabwa - Ayieko">Dr. Wycliffe Osabwa - Ayieko</option>
+                        <option value="Dr.Charles Owuor Omoga">Dr.Charles Owuor Omoga</option>
+                        <option value="Mrs. Ashley Shisoko">Mrs. Ashley Shisoko</option>
+                        <option value="Mr. Hezekiah Adwar Othoo">Mr. Hezekiah Adwar Othoo</option>
+                        <option value="Mr. Kelvin Kisaka Juma">Mr. Kelvin Kisaka Juma</option>
+                        <option value="Dr. Sarah Bundotich">Dr. Sarah Bundotich</option>
+                        <option value="Mrs. Gladys Nyaiburi Ogaro">Mrs. Gladys Nyaiburi Ogaro</option>
+                        <option value="Mr. Kiptanui Chebii">Mr. Kiptanui Chebii</option>
+                        <option value="Mr. Owuor Boswell Omondi">Mr. Owuor Boswell Omondi</option>
+                        <option value="Dr. Chebii  Kiprono">Dr. Chebii  Kiprono</option>
+                        <option value="Mr. Mwongula W. Albert">Mr. Mwongula W. Albert</option>
+                        <option value="Dr. Onganga Peter Odhiambo">Dr. Onganga Peter Odhiambo</option>
+                        <option value="Mrs. Margaret Ngugi">Mrs. Margaret Ngugi</option>
+                        <option value="Mr. Eliud Kipkemboi Koech">Mr. Eliud Kipkemboi Koech</option>
+                        <option value="Dr. Michael Murimi">Dr. Michael Murimi</option>
+                        <option value="Mr. Stephen Kimei">Mr. Stephen Kimei</option>
+                        <option value="Mr. Kipkoech Kiprono">Mr. Kipkoech Kiprono</option>
                     </select>
                 </div>
                 <div class="flex justify-center space-x-4 mb-4 mt-4">

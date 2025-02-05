@@ -41,14 +41,7 @@ class VisitController extends Controller
             $visitNumber = rand(1000000000, 9999999999);
             $hostEmail = Host::where('name', $validatedData['host_name'])->value('email');
 
-            // Create a new host if not exists
-            if (!$hostEmail) {
-                Host::create([
-                    'host_name' => $validatedData['host_name'],
-                    'host_email' => $validatedData['email'],
-                    'host_number' => $validatedData['phone_number']
-                ]);
-            }
+            // No need to create a new host, as hosts are already populated in the database
 
             // Send email to visitor and log the action
             Log::info('Sending email to visitor: ' . $validatedData['email']);
