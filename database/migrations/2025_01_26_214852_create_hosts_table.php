@@ -10,9 +10,9 @@ class CreateHostsTable extends Migration
     {
         Schema::create('hosts', function (Blueprint $table) {
             $table->id();
-$table->string('host_name')->unique()->default('default_host');
-$table->string('host_email')->unique()->default('default@example.com');
-$table->string('host_number')->unique()->default('0000000000');
+            $table->string('host_name')->unique()->default('default_host');
+            $table->string('host_email')->unique()->default('default@example.com');
+            $table->string('host_number')->unique()->default('0000000000');
             $table->timestamps();
         });
     }

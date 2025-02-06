@@ -27,8 +27,11 @@ class CreateVisitorsTable extends Migration
             $table->time('visit_from');
             $table->time('visit_to');
             $table->text('purpose_of_visit');
-            $table->string('host_name');
+            $table->unsignedBigInteger('host_id'); // Foreign key reference to hosts table
             $table->timestamps();
+
+            // Foreign key constraint
+            $table->foreign('host_id')->references('id')->on('hosts')->onDelete('cascade');
         });
     }
 

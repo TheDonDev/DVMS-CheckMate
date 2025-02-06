@@ -12,11 +12,13 @@ class VisitBooked extends Mailable
 
     public $visitorDetails;
     public $visitNumber;
+    public $host;
 
-    public function __construct($visitorDetails, $visitNumber)
+    public function __construct($visitorDetails, $visitNumber, $host)
     {
         $this->visitorDetails = $visitorDetails;
         $this->visitNumber = $visitNumber;
+        $this->host = $host;
     }
 
     public function build()
@@ -25,6 +27,7 @@ class VisitBooked extends Mailable
                     ->with([
                         'visitorDetails' => $this->visitorDetails,
                         'visitNumber' => $this->visitNumber,
+                        'host' => $this->host,
                     ]);
     }
 }

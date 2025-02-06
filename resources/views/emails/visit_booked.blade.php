@@ -7,7 +7,7 @@
 </head>
 <body>
     <h1>Visit Booking Confirmation</h1>
-    <p>Dear {{ $visitor->name }},</p>
+    <p>Dear {{ $visitorDetails->first_name }} {{ $visitorDetails->last_name }},</p>
     <p>Your visit has been successfully booked!</p>
     <p>Visit Number: {{ $visitNumber }}</p>
     <p>Host: {{ $host->name }}</p>

@@ -22,7 +22,7 @@ Route::get('/test-email', function () {
         'email' => 'donaldmwanga33@gmail.com',
     ];
     try {
-        Mail::to($details['email'])->send(new \App\Mail\VisitBooked($details, '1234567890'));
+        Mail::to($details['email'])->send(new \App\Mail\VisitBooked($details, '1234512345', 'example.com'));
         return 'Email sent successfully!';
     } catch (\Exception $e) {
         return 'Error sending email: ' . $e->getMessage();
@@ -34,10 +34,7 @@ Route::get('/', function () {
 })->name('index');
 
 // Routes for booking a visit
-Route::get('book-visit', function () {
-    return view('book-visit');
-})->name('book.visit');
-
+Route::get('book-visit', [VisitController::class, 'showBookVisitForm'])->name('book.visit');
 Route::post('book-visit', [VisitController::class, 'processBookVisit'])->name('book.visit.submit');
 
 // Routes for joining a visit
@@ -47,4 +44,8 @@ Route::get('join-visit', function () {
 
 Route::post('/join-visit', [VisitController::class, 'processJoinVisit'])->name('join.visit.submit');
 
-Route::post('/save-feedback', [VisitController::class, 'saveFeedback'])->name('save.feedback');
+// Route for notifying the host
+Route::post('/notify-host', [VisitController::class, 'notifyHost'])->name('notify.host');
+
+// Route for saving feedback
+Route::post('/save-feedback', [VisitController::class, 'submitFeedback'])->name('save.feedback');

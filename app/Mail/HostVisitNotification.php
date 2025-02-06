@@ -12,19 +12,22 @@ class HostVisitNotification extends Mailable
 
     public $visitorDetails;
     public $visitNumber;
+    public $host;
 
-    public function __construct($visitorDetails, $visitNumber)
+    public function __construct($visitorDetails, $visitNumber, $host)
     {
         $this->visitorDetails = $visitorDetails;
         $this->visitNumber = $visitNumber;
+        $this->host = $host;
     }
 
     public function build()
     {
-        return $this->view('emails.host_visit_notification')
+        return $this->view('emails.visit_booked')
                     ->with([
                         'visitorDetails' => $this->visitorDetails,
                         'visitNumber' => $this->visitNumber,
+                        'host' => $this->host,
                     ]);
     }
 }

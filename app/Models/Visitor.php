@@ -9,7 +9,6 @@ class Visitor extends Model
 {
     use HasFactory;
 
-    // Define fillable fields
     protected $fillable = [
         'visit_number',
         'first_name',
@@ -25,6 +24,16 @@ class Visitor extends Model
         'visit_from',
         'visit_to',
         'purpose_of_visit',
-        'host_name',
+        'host_id', // Ensure host_id is included here
     ];
+
+    public function host()
+    {
+        return $this->belongsTo(Host::class);
+    }
+
+    public function feedbacks()
+    {
+        return $this->hasMany(Feedback::class);
+    }
 }
