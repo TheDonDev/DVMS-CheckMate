@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\VisitController; // Ensure this is declared only once
+use App\Http\Controllers\VisitController;
 use Illuminate\Support\Facades\Mail;
 
 // Routes for Visit Status
@@ -10,9 +10,6 @@ Route::get('/visit-status', function () {
 })->name('visit.status');
 
 Route::post('/visit-status', [VisitController::class, 'showVisitStatus'])->name('visit.status');
-
-// Route to notify host via AJAX
-Route::post('/notify-host', [VisitController::class, 'notifyHost'])->name('notify.host');
 
 // Route to check out
 Route::post('/checkout', [VisitController::class, 'checkOut'])->name('checkout');

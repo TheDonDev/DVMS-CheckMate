@@ -45,7 +45,13 @@
     <main class="container mx-auto mt-8 h-screen flex flex-col justify-between">
         <section class="bg-white shadow-lg rounded-lg p-6 flex-1 overflow-y-auto">
             <h2 class="text-2xl font-bold text-primary mb-4">Book a Visit</h2>
-            <form action="{{ route('book.visit.submit') }}" method="POST" onsubmit="showSuccessMessage(event)">
+                @if(session('success'))
+                    <div class="bg-green-500 text-white p-4 rounded mb-4">
+                        {{ session('success') }}
+                    </div>
+                @endif
+                <form action="{{ route('book.visit.submit') }}" method="POST">
+
                 @csrf
                 <div class="flex space-x-4 mb-4">
                     <div class="flex-1">

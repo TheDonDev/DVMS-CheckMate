@@ -48,7 +48,7 @@
             <h2 class="text-2xl font-bold text-primary mb-4">Join a Visit</h2>
             <form action="{{ route('join.visit.submit') }}" method="POST">
                 @csrf
-                    <input type="text" placeholder="Visitor Number" class="border p-2 rounded w-full mb-4" required>
+                    <input type="text" placeholder="Visit Number" class="border p-2 rounded w-full mb-4" name="visit_number" required>
                     <input type="text" placeholder="First Name" class="border p-2 rounded w-full mb-4" required>
                     <input type="text" placeholder="Last Name" class="border p-2 rounded w-full mb-4" required>
                     <input type="text" placeholder="Designation" class="border p-2 rounded w-full mb-4" required>
